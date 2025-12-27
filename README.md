@@ -1,67 +1,138 @@
-# Payload Blank Template
+# Westcoast Otel Yönetim Sistemi
 
-This template comes configured with the bare minimum to get started on anything you need.
+Payload CMS ve Next.js ile geliştirilmiş modern otel yönetim sistemi.
 
-## Quick start
+## 🚀 Başka Bir Bilgisayardan Kullanım
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+### Gereksinimler
 
-## Quick Start - local setup
+- **Node.js** (v18.20.2 veya üzeri, v20.9.0+ önerilir)
+- **pnpm** (v9 veya v10)
+- **Docker** ve **Docker Compose** (veritabanı ve dosya depolama için)
 
-To spin up this template locally, follow these steps:
+### Kurulum Adımları
 
-### Clone
+1. **Projeyi GitHub'dan klonlayın:**
+   ```bash
+   git clone https://github.com/ismailusta/westcoast.git
+   cd westcoast
+   ```
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+2. **Bağımlılıkları yükleyin:**
+   ```bash
+   pnpm install
+   ```
 
-### Development
+3. **Environment değişkenlerini ayarlayın:**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   `.env` dosyasını açın ve `PAYLOAD_SECRET` değerini değiştirin. Güvenli bir secret key oluşturmak için:
+   ```bash
+   # Windows PowerShell için:
+   [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes([System.Guid]::NewGuid().ToString() + [System.Guid]::NewGuid().ToString()))
+   
+   # Linux/Mac için:
+   openssl rand -base64 32
+   ```
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+4. **Docker servislerini başlatın (PostgreSQL ve MinIO):**
+   ```bash
+   docker-compose up -d
+   ```
+   
+   Bu komut şunları başlatır:
+   - PostgreSQL veritabanı (port 5432)
+   - MinIO dosya depolama (port 9000 ve 9001)
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+5. **Geliştirme sunucusunu başlatın:**
+   ```bash
+   pnpm dev
+   ```
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+6. **Tarayıcıda açın:**
+   - Frontend: http://localhost:3000
+   - Admin Panel: http://localhost:3000/admin
+   - MinIO Console: http://localhost:9001 (kullanıcı: minioadmin, şifre: minioadmin)
 
-#### Docker (Optional)
+7. **İlk admin kullanıcısını oluşturun:**
+   - Admin paneline gidin (http://localhost:3000/admin)
+   - Ekrandaki talimatları takip ederek ilk admin kullanıcısını oluşturun
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+### Docker Servislerini Durdurma
 
-To do so, follow these steps:
+```bash
+docker-compose down
+```
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+Verileri de silmek isterseniz:
+```bash
+docker-compose down -v
+```
 
-## How it works
+### Önemli Notlar
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+- `db_data` ve `minio_data` klasörleri `.gitignore`'da olduğu için GitHub'a yüklenmez
+- Her yeni bilgisayarda bu klasörler Docker tarafından otomatik oluşturulur
+- Production ortamında `PAYLOAD_SECRET` değerini mutlaka değiştirin
 
-### Collections
+## 📋 Proje Yapısı
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+### Collections (Veri Modelleri)
 
-- #### Users (Authentication)
+- **Users**: Admin panel erişimi olan kullanıcılar
+- **Media**: Resim ve dosya yükleme koleksiyonu (otomatik boyutlandırma özellikli)
+- **Amenities**: Otel olanakları (WiFi, Havuz, vb.)
+- **RoomTypes**: Oda tipleri (Standart, Deluxe, Suite, vb.)
 
-  Users are auth-enabled collections that have access to the admin panel.
+### Teknolojiler
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+- **Next.js 15**: React framework
+- **Payload CMS 3.0**: Headless CMS
+- **PostgreSQL**: Veritabanı
+- **MinIO**: S3 uyumlu dosya depolama
+- **TypeScript**: Tip güvenliği
+- **Tailwind CSS**: Stil framework'ü
 
-- #### Media
+## 🛠️ Geliştirme
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+### Scripts
 
-### Docker
+```bash
+# Geliştirme sunucusunu başlat
+pnpm dev
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+# Production build
+pnpm build
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+# Production sunucusunu başlat
+pnpm start
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+# TypeScript tiplerini oluştur
+pnpm generate:types
 
-## Questions
+# Lint kontrolü
+pnpm lint
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+# Testler
+pnpm test
+```
+
+## 📝 Environment Değişkenleri
+
+`.env` dosyasında aşağıdaki değişkenler bulunur:
+
+- `PAYLOAD_SECRET`: Payload CMS için güvenlik anahtarı (zorunlu)
+- `DATABASE_URI`: PostgreSQL bağlantı string'i
+- `MINIO_ENDPOINT`: MinIO sunucu adresi
+- `MINIO_ACCESS_KEY`: MinIO erişim anahtarı
+- `MINIO_SECRET_KEY`: MinIO gizli anahtar
+- `MINIO_BUCKET`: MinIO bucket adı
+- `MINIO_REGION`: MinIO bölge
+
+## ❓ Sorular ve Destek
+
+Sorularınız için:
+- [Payload CMS Discord](https://discord.com/invite/payload)
+- [GitHub Discussions](https://github.com/payloadcms/payload/discussions)
