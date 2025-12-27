@@ -1,43 +1,30 @@
-version: '3'
+version: '3.8'
 
 services:
-  payload:
-    image: node:18-alpine
+  # 1. Veritabanı (PostgreSQL)
+  postgres:
+    image: postgres:16
+    container_name: otel-postgres
+    restart: always
     ports:
-      - '3000:3000'
+      - "5432:5432" # Dışarıya 5432 ver (Payload buradan bağlanacak)
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: otel-projesi
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
-    depends_on:
-      - mongo
-      # - postgres
-    env_file:
-      - .env
+      - ./db_data:/var/lib/postgresql/data # Veriler kaybolmasın diye buraya kaydet
 
-  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
-  mongo:
-    image: mongo:latest
+  # 2. Dosya Depolama (MinIO / S3)
+  minio:
+    image: minio/minio
+    container_name: otel-minio
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
-
-  # Uncomment the following to use postgres
-  # postgres:
-  #   restart: always
-  #   image: postgres:latest
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
-
-volumes:
-  data:
-  # pgdata:
-  node_modules:
+      - ./minio_data:/data

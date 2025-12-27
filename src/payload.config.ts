@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -7,6 +8,8 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Amenities } from './collections/Amenities'
+import { RoomTypes } from './collections/RoomTypes'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -17,8 +20,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      titleSuffix: '- Otel Yönetim Sistemi',
+    },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Amenities, RoomTypes],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -30,5 +36,45 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    s3Storage({
+      collections: {
+        media: {
+          prefix: 'media',
+        },
+      },
+      bucket: process.env.MINIO_BUCKET || 'otel-media',
+      config: {
+        endpoint: process.env.MINIO_ENDPOINT || 'http://localhost:9000',
+        credentials: {
+          accessKeyId: process.env.MINIO_ACCESS_KEY || 'minioadmin',
+          secretAccessKey: process.env.MINIO_SECRET_KEY || 'minioadmin',
+        },
+        region: process.env.MINIO_REGION || 'us-east-1',
+        forcePathStyle: true, // MinIO için gerekli
+      },
+    }),
+  ],
+  localization: {
+    locales: [
+      {
+        label: 'Türkçe',
+        code: 'tr',
+      },
+      {
+        label: 'English',
+        code: 'en',
+      },
+      {
+        label: 'Русский',
+        code: 'ru',
+      },
+      {
+        label: 'Deutsch',
+        code: 'de',
+      },
+    ],
+    defaultLocale: 'tr',
+    fallback: true,
+  },
 })
