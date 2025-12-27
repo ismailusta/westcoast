@@ -3,12 +3,13 @@
 import React, { useState, useTransition, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FlagIcon } from './FlagIcon'
 
 const locales = [
-  { code: 'tr', label: 'TR', fullLabel: 'Türkçe' },
-  { code: 'en', label: 'EN', fullLabel: 'English' },
-  { code: 'ru', label: 'RU', fullLabel: 'Русский' },
-  { code: 'de', label: 'DE', fullLabel: 'Deutsch' },
+  { code: 'tr' as const, label: 'TR', fullLabel: 'Türkçe' },
+  { code: 'en' as const, label: 'EN', fullLabel: 'English' },
+  { code: 'ru' as const, label: 'RU', fullLabel: 'Русский' },
+  { code: 'de' as const, label: 'DE', fullLabel: 'Deutsch' },
 ]
 
 export const LocaleSwitcher = () => {
@@ -55,6 +56,7 @@ export const LocaleSwitcher = () => {
           isOpen ? 'text-primary' : ''
         }`}
       >
+        <FlagIcon code={currentLocaleData.code} size={18} className="rounded-sm overflow-hidden" />
         <span>{currentLocaleData.label}</span>
         <motion.svg
           width="12"
@@ -93,8 +95,11 @@ export const LocaleSwitcher = () => {
                       : 'text-secondary hover:bg-accent hover:text-primary'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span>{locale.fullLabel}</span>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <FlagIcon code={locale.code} size={20} className="rounded-sm overflow-hidden" />
+                      <span>{locale.fullLabel}</span>
+                    </div>
                     {currentLocale === locale.code && (
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <path d="M20 6L9 17l-5-5" />

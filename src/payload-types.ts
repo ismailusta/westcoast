@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     amenities: Amenity;
     'room-types': RoomType;
+    reviews: Review;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     amenities: AmenitiesSelect<false> | AmenitiesSelect<true>;
     'room-types': RoomTypesSelect<false> | RoomTypesSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -338,6 +340,37 @@ export interface RoomType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  guestName: string;
+  email?: string | null;
+  rating: number;
+  comment: string;
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Select if reviewing a specific room
+   */
+  roomType?: (number | null) | RoomType;
+  /**
+   * Check to display this review on the frontend
+   */
+  showOnPage?: boolean | null;
+  /**
+   * Check if this guest actually stayed
+   */
+  isVerified?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -375,6 +408,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'room-types';
         value: number | RoomType;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -595,6 +632,27 @@ export interface RoomTypesSelect<T extends boolean = true> {
         date?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  guestName?: T;
+  email?: T;
+  rating?: T;
+  comment?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  roomType?: T;
+  showOnPage?: T;
+  isVerified?: T;
   updatedAt?: T;
   createdAt?: T;
 }

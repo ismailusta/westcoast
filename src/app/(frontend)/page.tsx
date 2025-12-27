@@ -8,6 +8,8 @@ import { HeroSection } from './components/sections/HeroSection'
 import { RoomsSection } from './components/sections/RoomsSection'
 import { AboutSection } from './components/sections/AboutSection'
 import { NewsletterSection } from './components/sections/NewsletterSection'
+import { ReviewForm } from './components/sections/ReviewForm'
+import { ReviewsSection } from './components/sections/ReviewsSection'
 import { getLocale, type Locale } from '@/lib/getLocale'
 
 import { cookies } from 'next/headers'
@@ -40,6 +42,19 @@ export default async function Page() {
     collection: 'room-types',
     depth: 1,
     locale,
+  })
+
+  // Onaylanmış değerlendirmeleri çek
+  const reviewsResult = await payload.find({
+    collection: 'reviews',
+    where: {
+      showOnPage: {
+        equals: true,
+      },
+    },
+    sort: '-createdAt',
+    limit: 9,
+    depth: 1,
   })
 
   // Veriyi formatla
@@ -89,6 +104,10 @@ export default async function Page() {
         <AboutSection />
         
         <RoomsSection rooms={formattedRooms} />
+        
+        <ReviewsSection reviews={reviewsResult.docs as any[]} />
+        
+        <ReviewForm />
         
         <NewsletterSection />
       </main>

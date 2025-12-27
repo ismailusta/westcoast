@@ -10,6 +10,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Amenities } from './collections/Amenities'
 import { RoomTypes } from './collections/RoomTypes'
+import { Reviews } from './collections/Reviews'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,7 @@ export default buildConfig({
       titleSuffix: '- Otel Yönetim Sistemi',
     },
   },
-  collections: [Users, Media, Amenities, RoomTypes],
+  collections: [Users, Media, Amenities, RoomTypes, Reviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
