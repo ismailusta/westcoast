@@ -1,0 +1,143 @@
+[
+  {
+    "title_tr": "WiFi / Kablosuz İnternet",
+    "title_en": "WiFi / Wireless Internet",
+    "title_ru": "WiFi / Беспроводной интернет",
+    "title_de": "WiFi / Drahtloses Internet",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M5 12.55a11 11 0 0 1 14.08 0\"/><path d=\"M1.42 9a16 16 0 0 1 21.16 0\"/><path d=\"M8.53 16.11a6 6 0 0 1 6.95 0\"/><line x1=\"12\" y1=\"20\" x2=\"12.01\" y2=\"20\"/></svg>"
+  },
+  {
+    "title_tr": "Klima",
+    "title_en": "Air Conditioning",
+    "title_ru": "Кондиционер",
+    "title_de": "Klimaanlage",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M6 12h12M6 8h12M6 16h12\"/><circle cx=\"3\" cy=\"12\" r=\"1\"/><circle cx=\"21\" cy=\"12\" r=\"1\"/></svg>"
+  },
+  {
+    "title_tr": "Havuz",
+    "title_en": "Pool",
+    "title_ru": "Бассейн",
+    "title_de": "Pool",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M2 12h20M2 8h20M2 16h20\"/><path d=\"M6 4v16M18 4v16\"/></svg>"
+  },
+  {
+    "title_tr": "Balkon / Teras",
+    "title_en": "Balcony / Terrace",
+    "title_ru": "Балкон / Терраса",
+    "title_de": "Balkon / Terrasse",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M6 8h12M6 12h12M6 16h8\"/></svg>"
+  },
+  {
+    "title_tr": "Deniz Manzarası",
+    "title_en": "Sea View",
+    "title_ru": "Вид на море",
+    "title_de": "Meerblick",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M2 12c0 5 4 9 9 9s9-4 9-9\"/><path d=\"M2 12h20\"/><path d=\"M8 8l4-4 4 4\"/></svg>"
+  },
+  {
+    "title_tr": "Uydu TV",
+    "title_en": "Satellite TV",
+    "title_ru": "Спутниковое ТВ",
+    "title_de": "Satelliten-TV",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M17 2l-5 5-5-5\"/></svg>"
+  },
+  {
+    "title_tr": "Tam Donanımlı Mutfak",
+    "title_en": "Fully Equipped Kitchen",
+    "title_ru": "Полностью оборудованная кухня",
+    "title_de": "Voll ausgestattete Küche",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M3 12h18M3 6h18M3 18h18\"/><path d=\"M6 3v18M18 3v18\"/></svg>"
+  },
+  {
+    "title_tr": "Bulaşık Makinesi",
+    "title_en": "Dishwasher",
+    "title_ru": "Посудомоечная машина",
+    "title_de": "Geschirrspüler",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><circle cx=\"8\" cy=\"12\" r=\"2\"/><path d=\"M14 8v8\"/></svg>"
+  },
+  {
+    "title_tr": "Çamaşır Makinesi",
+    "title_en": "Washing Machine",
+    "title_ru": "Стиральная машина",
+    "title_de": "Waschmaschine",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M8 4v4M16 4v4\"/></svg>"
+  },
+  {
+    "title_tr": "Mikrodalga Fırın",
+    "title_en": "Microwave",
+    "title_ru": "Микроволновая печь",
+    "title_de": "Mikrowelle",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M8 8h8M8 12h8M8 16h4\"/></svg>"
+  },
+  {
+    "title_tr": "Buzdolabı",
+    "title_en": "Refrigerator",
+    "title_ru": "Холодильник",
+    "title_de": "Kühlschrank",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M8 2v4M16 2v4\"/><path d=\"M12 10v4\"/></svg>"
+  },
+  {
+    "title_tr": "Barbekü",
+    "title_en": "BBQ / Barbecue",
+    "title_ru": "Барбекю",
+    "title_de": "Grill / BBQ",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"/><path d=\"M6 10h12M6 14h12\"/><path d=\"M8 2v4M16 2v4\"/></svg>"
+  },
+  {
+    "title_tr": "Güneşlenme Yatağı",
+    "title_en": "Sun Loungers",
+    "title_ru": "Шезлонги",
+    "title_de": "Sonnenliegen",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M3 12h18M3 8h18M3 16h18\"/><path d=\"M6 4v16M18 4v16\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg>"
+  },
+  {
+    "title_tr": "Oda Servisi",
+    "title_en": "Room Service",
+    "title_ru": "Обслуживание в номере",
+    "title_de": "Zimmerservice",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M3 12h18M3 6h18M3 18h18\"/><path d=\"M6 2v4M18 2v4\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg>"
+  },
+  {
+    "title_tr": "Güvenli Kasa",
+    "title_en": "Safe",
+    "title_ru": "Сейф",
+    "title_de": "Safe",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"4\" y=\"6\" width=\"16\" height=\"14\" rx=\"2\"/><circle cx=\"12\" cy=\"13\" r=\"2\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>"
+  },
+  {
+    "title_tr": "Mini Bar",
+    "title_en": "Mini Bar",
+    "title_ru": "Мини-бар",
+    "title_de": "Minibar",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M8 8h8M8 12h8M8 16h4\"/></svg>"
+  },
+  {
+    "title_tr": "Jakuzi",
+    "title_en": "Jacuzzi",
+    "title_ru": "Джакузи",
+    "title_de": "Whirlpool",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M2 12h20M2 8h20M2 16h20\"/><circle cx=\"6\" cy=\"12\" r=\"2\"/><circle cx=\"18\" cy=\"12\" r=\"2\"/></svg>"
+  },
+  {
+    "title_tr": "Sauna",
+    "title_en": "Sauna",
+    "title_ru": "Сауна",
+    "title_de": "Sauna",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M6 8h12M6 12h12M6 16h8\"/><circle cx=\"18\" cy=\"10\" r=\"1\"/></svg>"
+  },
+  {
+    "title_tr": "Fitness Merkezi",
+    "title_en": "Fitness Center / Gym",
+    "title_ru": "Фитнес-центр",
+    "title_de": "Fitnesscenter",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><path d=\"M6.5 6.5h11v11h-11z\"/><path d=\"M6.5 6.5l5.5 5.5M12 12l5.5 5.5\"/></svg>"
+  },
+  {
+    "title_tr": "Spa",
+    "title_en": "Spa",
+    "title_ru": "Спа",
+    "title_de": "Spa",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 12h8M12 8v8\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg>"
+  }
+]
+

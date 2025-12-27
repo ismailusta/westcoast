@@ -25,6 +25,7 @@
     "@payloadcms/ui": "3.68.3",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
+    "framer-motion": "^12.23.26",
     "graphql": "^16.8.1",
     "init": "^0.1.2",
     "lucide-react": "^0.562.0",

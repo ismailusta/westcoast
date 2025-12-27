@@ -275,9 +275,64 @@ export interface RoomType {
   price: number;
   capacity_adults: number;
   capacity_children?: number | null;
-  amenities?: (number | Amenity)[] | null;
+  /**
+   * Room location (e.g., Kalkan old town center)
+   */
+  location?: string | null;
   coverImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   description?: string | null;
+  /**
+   * Detailed floor plan and layout information
+   */
+  floorPlan?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Special information like pool season, cleaning, welcome pack, etc.
+   */
+  specialNotes?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  amenities?: (number | Amenity)[] | null;
+  reviews?:
+    | {
+        guestName?: string | null;
+        rating: number;
+        comment?: string | null;
+        date?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -519,9 +574,27 @@ export interface RoomTypesSelect<T extends boolean = true> {
   price?: T;
   capacity_adults?: T;
   capacity_children?: T;
-  amenities?: T;
+  location?: T;
   coverImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   description?: T;
+  floorPlan?: T;
+  specialNotes?: T;
+  amenities?: T;
+  reviews?:
+    | T
+    | {
+        guestName?: T;
+        rating?: T;
+        comment?: T;
+        date?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
