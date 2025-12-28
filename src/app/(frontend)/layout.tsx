@@ -29,7 +29,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="tr" className={`${serif.variable} ${sans.variable}`}>
       <body suppressHydrationWarning className="antialiased font-sans">
         <LocaleProvider>
-          {children}
+        {children}
         </LocaleProvider>
       </body>
     </html>

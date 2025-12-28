@@ -1,7 +1,7 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { FAQ } from '@/payload-types'
+import type { Faq } from '@/payload-types'
 import { Header } from '../components/layout/Header'
 import { Footer } from '../components/layout/Footer'
 import { FAQPageContent } from '../components/sections/FAQPageContent'
@@ -27,7 +27,7 @@ export default async function FAQPage() {
     sort: 'order',
   })
 
-  const faqs = faqsResult.docs as FAQ[]
+  const faqs = faqsResult.docs as Faq[]
 
   return (
     <div className="bg-[#F8F5F2] selection:bg-primary selection:text-white">

@@ -18,13 +18,16 @@ export const Media: CollectionConfig = {
           })
 
           // Bu media'yı kullanan review'ları filtrele
-          const reviewsUsingThisMedia = reviews.docs.filter((review: any) => {
+          const reviewsUsingThisMedia = reviews.docs.filter((review) => {
             if (!review.images || !Array.isArray(review.images)) return false
-            return review.images.some((img: any) => {
-              const imageId = typeof img.image === 'object' && img.image !== null && 'id' in img.image
-                ? img.image.id
-                : img.image
-              return imageId === id
+            return review.images.some((img) => {
+              const imageValue = img.image
+              const imageId = typeof imageValue === 'object' && imageValue !== null && 'id' in imageValue
+                ? imageValue.id
+                : typeof imageValue === 'number'
+                ? imageValue
+                : imageValue
+              return String(imageId) === String(id)
             })
           })
 
@@ -32,11 +35,14 @@ export const Media: CollectionConfig = {
           for (const review of reviewsUsingThisMedia) {
             try {
               if (review.images && Array.isArray(review.images)) {
-                const updatedImages = review.images.filter((img: any) => {
-                  const imageId = typeof img.image === 'object' && img.image !== null && 'id' in img.image
-                    ? img.image.id
-                    : img.image
-                  return imageId !== id
+                const updatedImages = review.images.filter((img) => {
+                  const imageValue = img.image
+                  const imageId = typeof imageValue === 'object' && imageValue !== null && 'id' in imageValue
+                    ? imageValue.id
+                    : typeof imageValue === 'number'
+                    ? imageValue
+                    : imageValue
+                  return String(imageId) !== String(id)
                 })
 
                 // Review'ı güncelle

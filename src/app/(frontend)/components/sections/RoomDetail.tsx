@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Media } from '@/payload-types'
 import { AmenityIcon } from '../ui/AmenityIcon'
@@ -40,7 +41,7 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
         {/* Breadcrumb */}
         <nav className="mb-12 text-sm text-secondary/50">
           <div className="flex items-center gap-2">
-            <a href="/" className="hover:text-primary transition-colors">{t.rooms.home}</a>
+            <Link href="/" className="hover:text-primary transition-colors">{t.rooms.home}</Link>
             <span>/</span>
             <a href="#rooms" className="hover:text-primary transition-colors">{t.rooms.label}</a>
             <span>/</span>

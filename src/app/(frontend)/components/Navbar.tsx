@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -11,9 +12,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-2xl font-bold text-slate-800">
+            <Link href="/" className="text-2xl font-bold text-slate-800">
               Otel Adı
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Menu */}

@@ -30,10 +30,10 @@ export default async function Page() {
     where: {
       and: [
         {
-          category: {
-            equals: 'hero',
-          },
-        },
+      category: {
+        equals: 'hero',
+      },
+    },
         {
           showOnHomePage: {
             equals: true,

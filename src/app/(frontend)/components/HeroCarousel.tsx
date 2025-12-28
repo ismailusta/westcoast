@@ -11,13 +11,9 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  if (!heroImages || heroImages.length === 0) {
-    return null
-  }
-
   // Otomatik geçiş için useEffect
   useEffect(() => {
-    if (heroImages.length <= 1) return
+    if (!heroImages || heroImages.length <= 1) return
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => {
@@ -27,7 +23,11 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
     }, 5000) // 5 saniyede bir geçiş
 
     return () => clearInterval(interval)
-  }, [heroImages.length])
+  }, [heroImages])
+
+  if (!heroImages || heroImages.length === 0) {
+    return null
+  }
 
   // Sonraki resme geç
   const goToNext = () => {

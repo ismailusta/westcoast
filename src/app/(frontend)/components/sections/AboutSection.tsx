@@ -69,7 +69,7 @@ export const AboutSection = () => {
                   {t.about.description1}
                 </p>
                 <p className="font-serif italic text-primary/80 border-l-2 border-primary/20 pl-6 py-2">
-                  "{t.about.description2.split('.')[0]}."
+                  &ldquo;{t.about.description2.split('.')[0]}.&rdquo;
                 </p>
               </div>
 

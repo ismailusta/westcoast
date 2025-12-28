@@ -12,6 +12,7 @@ interface RoomCardProps {
   title: string
   description: string
   price: number
+  slug?: string
   location?: string
   capacity_adults?: number
   capacity_children?: number
@@ -186,20 +187,25 @@ export const RoomCard = ({
     </>
   )
 
-  const Wrapper = slug ? Link : 'div'
-  const wrapperProps = slug ? { href: `/rooms/${slug}` } : {}
-
-  return (
-    <Wrapper {...wrapperProps}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="group cursor-pointer"
-      >
-        {cardContent}
-      </motion.div>
-    </Wrapper>
+  const cardWrapper = (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group cursor-pointer"
+    >
+      {cardContent}
+    </motion.div>
   )
+
+  if (slug) {
+    return (
+      <Link href={`/rooms/${slug}`}>
+        {cardWrapper}
+      </Link>
+    )
+  }
+
+  return cardWrapper
 }
 

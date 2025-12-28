@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { FAQ } from '@/payload-types'
+import type { Faq } from '@/payload-types'
 import { useLocale } from '../LocaleProvider'
 import { getTranslation } from '@/lib/translations'
 import { lexicalToHtml } from '@/lib/lexicalToHtml'
 
 interface FAQPageContentProps {
-  faqs: FAQ[]
+  faqs: Faq[]
 }
 
 export const FAQPageContent = ({ faqs }: FAQPageContentProps) => {
@@ -24,7 +24,7 @@ export const FAQPageContent = ({ faqs }: FAQPageContentProps) => {
     }
     acc[category].push(faq)
     return acc
-  }, {} as Record<string, FAQ[]>)
+  }, {} as Record<string, Faq[]>)
 
   // Kategori sıralaması
   const categoryOrder = ['general', 'rooms', 'reservation', 'services', 'contact']

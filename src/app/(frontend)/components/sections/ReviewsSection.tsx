@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import type { Media } from '@/payload-types'
 import { useLocale } from '../LocaleProvider'
@@ -32,11 +32,7 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const isUserScrollingRef = useRef(false)
 
-  if (reviews.length === 0) {
-    return null
-  }
-
-  const startAutoScroll = () => {
+  const startAutoScroll = useCallback(() => {
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current)
     }
@@ -61,9 +57,11 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
         }
       }
     }, 5000) // 5 saniye
-  }
+  }, [])
 
   React.useEffect(() => {
+    if (reviews.length === 0) return
+
     const container = scrollContainerRef.current
     if (container) {
       const handleScroll = () => {
@@ -90,7 +88,11 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
         }
       }
     }
-  }, [reviews])
+  }, [reviews, startAutoScroll])
+
+  if (reviews.length === 0) {
+    return null
+  }
 
   return (
     <section id="reviews" className="py-32 bg-[#F8F5F2]">

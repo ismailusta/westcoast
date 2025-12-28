@@ -1,7 +1,7 @@
 /**
  * Lexical JSON'ı HTML'e çevirir
  */
-export function lexicalToHtml(lexicalData: any): string {
+export function lexicalToHtml(lexicalData: unknown): string {
   if (!lexicalData || typeof lexicalData !== 'object') {
     return ''
   }
@@ -11,14 +11,18 @@ export function lexicalToHtml(lexicalData: any): string {
   }
 
   // Lexical JSON formatı
-  if (lexicalData.root && lexicalData.root.children) {
-    return serializeNodes(lexicalData.root.children)
+  const data = lexicalData as Record<string, unknown>
+  if (data.root && typeof data.root === 'object' && data.root !== null) {
+    const root = data.root as Record<string, unknown>
+    if (root.children && Array.isArray(root.children)) {
+      return serializeNodes(root.children)
+    }
   }
 
   return ''
 }
 
-function serializeNodes(nodes: any[]): string {
+function serializeNodes(nodes: unknown[]): string {
   if (!Array.isArray(nodes)) {
     return ''
   }
@@ -26,41 +30,43 @@ function serializeNodes(nodes: any[]): string {
   return nodes.map(node => serializeNode(node)).join('')
 }
 
-function serializeNode(node: any): string {
-  if (!node) {
+function serializeNode(node: unknown): string {
+  if (!node || typeof node !== 'object') {
     return ''
   }
 
-  const nodeType = node.type || ''
-  const text = node.text || ''
-  const children = node.children || []
+  const nodeObj = node as Record<string, unknown>
+  const nodeType = (nodeObj.type as string) || ''
+  const text = (nodeObj.text as string) || ''
+  const children = (nodeObj.children as unknown[]) || []
 
   switch (nodeType) {
     case 'paragraph':
       return `<p>${serializeNodes(children)}</p>`
     
     case 'heading':
-      const tag = `h${node.tag || '1'}`
+      const tag = `h${(nodeObj.tag as string) || '1'}`
       return `<${tag}>${serializeNodes(children)}</${tag}>`
     
     case 'list':
-      const listTag = node.listType === 'number' ? 'ol' : 'ul'
+      const listTag = (nodeObj.listType as string) === 'number' ? 'ol' : 'ul'
       return `<${listTag}>${serializeNodes(children)}</${listTag}>`
     
     case 'listitem':
       return `<li>${serializeNodes(children)}</li>`
     
     case 'link':
-      const url = node.url || '#'
+      const url = (nodeObj.url as string) || '#'
       return `<a href="${url}">${serializeNodes(children)}</a>`
     
     case 'text':
       let content = text
-      if (node.format) {
-        if (node.format & 1) content = `<strong>${content}</strong>` // bold
-        if (node.format & 2) content = `<em>${content}</em>` // italic
-        if (node.format & 4) content = `<u>${content}</u>` // underline
-        if (node.format & 8) content = `<code>${content}</code>` // code
+      const format = nodeObj.format as number | undefined
+      if (format) {
+        if (format & 1) content = `<strong>${content}</strong>` // bold
+        if (format & 2) content = `<em>${content}</em>` // italic
+        if (format & 4) content = `<u>${content}</u>` // underline
+        if (format & 8) content = `<code>${content}</code>` // code
       }
       return content
     
