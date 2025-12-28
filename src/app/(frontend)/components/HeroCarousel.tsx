@@ -11,11 +11,11 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ heroImages = [] }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Görüntü sayısını güvenli bir değişkene alalım
-  const imageCount = heroImages?.length || 0
-
   // Hook'u kesinlikle hiçbir koşula (if) bağlamadan en üstte tutuyoruz
   useEffect(() => {
+    // Görüntü sayısını güvenli bir şekilde hesapla
+    const imageCount = heroImages?.length || 0
+    
     // Eğer görsel yoksa veya tekse bir şey yapma (ama hook yine de çalışmış oldu)
     if (imageCount <= 1) return
 
@@ -24,7 +24,10 @@ export default function HeroCarousel({ heroImages = [] }: HeroCarouselProps) {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [imageCount]) // heroImages yerine uzunluğa bakmak daha stabildir
+  }, [heroImages]) // heroImages array'ini dependency olarak kullan
+
+  // Görüntü sayısını güvenli bir değişkene alalım (early return'den önce)
+  const imageCount = heroImages?.length || 0
 
   // Fonksiyonlar
   const goToNext = () => {

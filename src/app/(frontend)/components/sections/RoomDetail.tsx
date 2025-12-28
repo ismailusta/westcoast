@@ -192,7 +192,7 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
             </div>
 
             {/* Features */}
-            {room.features.length > 0 && (
+            {Array.isArray(room.features) && room.features.length > 0 && (
               <div>
                 <h2 className="text-3xl font-serif text-secondary mb-6">{t.rooms.amenities}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -213,15 +213,22 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
             )}
 
             {/* Special Notes */}
-            {room.specialNotes && (
+            {room.specialNotes ? (
               <div>
                 <h2 className="text-3xl font-serif text-secondary mb-6">{t.rooms.specialNotes}</h2>
                 <div className="prose prose-sm max-w-none text-secondary/70 leading-relaxed">
                   {/* Rich text content would be rendered here */}
-                  <p>{JSON.stringify(room.specialNotes)}</p>
+                  <p>
+                    {typeof room.specialNotes === 'string' 
+                      ? room.specialNotes 
+                      : typeof room.specialNotes === 'object' && room.specialNotes !== null
+                      ? JSON.stringify(room.specialNotes)
+                      : String(room.specialNotes)
+                    }
+                  </p>
                 </div>
               </div>
-            )}
+            ) : null}
 
             {/* Reviews */}
             {room.reviews && room.reviews.length > 0 && (
