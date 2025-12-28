@@ -27,9 +27,9 @@ export const Reviews: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: () => true, // Herkes yorum yapabilsin
-    update: () => false, // Sadece admin güncelleyebilir
-    delete: () => false, // Sadece admin silebilir
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
   fields: [
     {
@@ -87,7 +87,7 @@ export const Reviews: CollectionConfig = {
         de: 'Bilder',
       },
       minRows: 0,
-      maxRows: 5,
+      maxRows: 4,
       fields: [
         {
           name: 'image',

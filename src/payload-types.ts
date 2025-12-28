@@ -72,6 +72,8 @@ export interface Config {
     amenities: Amenity;
     'room-types': RoomType;
     reviews: Review;
+    contacts: Contact;
+    faqs: Faq;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +86,8 @@ export interface Config {
     amenities: AmenitiesSelect<false> | AmenitiesSelect<true>;
     'room-types': RoomTypesSelect<false> | RoomTypesSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -98,8 +102,12 @@ export interface Config {
     | null
     | ('tr' | 'en' | 'ru' | 'de')
     | ('tr' | 'en' | 'ru' | 'de')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'contact-settings': ContactSetting;
+  };
+  globalsSelect: {
+    'contact-settings': ContactSettingsSelect<false> | ContactSettingsSelect<true>;
+  };
   locale: 'tr' | 'en' | 'ru' | 'de';
   user: User & {
     collection: 'users';
@@ -161,7 +169,11 @@ export interface Media {
   /**
    * Select the purpose of this image
    */
-  category?: ('hero' | 'room' | 'gallery' | 'restaurant' | 'about' | 'general') | null;
+  category?: ('hero' | 'room' | 'gallery' | 'restaurant' | 'about' | 'general' | 'review') | null;
+  /**
+   * Should hero images be shown on the home page?
+   */
+  showOnHomePage?: boolean | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -371,6 +383,51 @@ export interface Review {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: string;
+  message: string;
+  read?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  category: 'general' | 'reservation' | 'rooms' | 'services' | 'contact';
+  /**
+   * Lower numbers are shown first
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -412,6 +469,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reviews';
         value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: number | Contact;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -484,6 +549,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   category?: T;
+  showOnHomePage?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -658,6 +724,32 @@ export interface ReviewsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  subject?: T;
+  message?: T;
+  read?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -695,6 +787,63 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-settings".
+ */
+export interface ContactSetting {
+  id: number;
+  /**
+   * Email addresses to receive notifications when contact form is submitted
+   */
+  notificationEmails?:
+    | {
+        email: string;
+        name?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * SMTP server address for sending emails (e.g., smtp.gmail.com)
+   */
+  smtpHost?: string | null;
+  /**
+   * SMTP port number (usually 587 or 465)
+   */
+  smtpPort?: number | null;
+  /**
+   * SMTP username (usually email address)
+   */
+  smtpUser?: string | null;
+  /**
+   * SMTP password (recommended to use environment variable for security)
+   */
+  smtpPassword?: string | null;
+  smtpSecure?: boolean | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-settings_select".
+ */
+export interface ContactSettingsSelect<T extends boolean = true> {
+  notificationEmails?:
+    | T
+    | {
+        email?: T;
+        name?: T;
+        id?: T;
+      };
+  smtpHost?: T;
+  smtpPort?: T;
+  smtpUser?: T;
+  smtpPassword?: T;
+  smtpSecure?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

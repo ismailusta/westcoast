@@ -150,7 +150,7 @@ export const ReviewForm = () => {
 
               <div>
                 <label className="block text-sm uppercase tracking-wider text-secondary mb-2 font-medium">
-                  {t.reviews?.images || 'Görseller (Opsiyonel, Max 5)'}
+                  {t.reviews?.images || 'Görseller (Opsiyonel, Max 4)'}
                 </label>
                 <input
                   type="file"
@@ -158,7 +158,7 @@ export const ReviewForm = () => {
                   accept="image/*"
                   onChange={(e) => {
                     const files = Array.from(e.target.files || [])
-                    setFormData({ ...formData, images: files.slice(0, 5) })
+                    setFormData({ ...formData, images: files.slice(0, 4) })
                   }}
                   className="w-full px-4 py-3 border border-secondary/20 focus:border-primary focus:outline-none transition-colors"
                 />

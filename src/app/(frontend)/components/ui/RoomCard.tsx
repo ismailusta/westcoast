@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Media } from '@/payload-types'
 import { AmenityIcon } from './AmenityIcon'
@@ -23,7 +24,8 @@ interface RoomCardProps {
 export const RoomCard = ({ 
   title, 
   description, 
-  price, 
+  price,
+  slug,
   location,
   capacity_adults,
   capacity_children,
@@ -41,13 +43,8 @@ export const RoomCard = ({
     ? reviews.reduce((sum, review) => sum + (review.rating || 0), 0) / reviews.length
     : 0
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="group cursor-pointer"
-    >
+  const cardContent = (
+    <>
       <div className="relative aspect-[4/5] overflow-hidden mb-6 bg-accent">
         <AnimatePresence mode="wait">
           <motion.img
@@ -186,7 +183,23 @@ export const RoomCard = ({
           />
         </div>
       </div>
-    </motion.div>
+    </>
+  )
+
+  const Wrapper = slug ? Link : 'div'
+  const wrapperProps = slug ? { href: `/rooms/${slug}` } : {}
+
+  return (
+    <Wrapper {...wrapperProps}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="group cursor-pointer"
+      >
+        {cardContent}
+      </motion.div>
+    </Wrapper>
   )
 }
 

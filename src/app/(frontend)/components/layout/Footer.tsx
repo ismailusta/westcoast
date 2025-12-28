@@ -9,7 +9,7 @@ export const Footer = () => {
   const { locale } = useLocale()
   const t = getTranslation(locale)
   return (
-    <footer className="bg-secondary text-white py-24">
+    <footer id="contact" className="bg-secondary text-white py-24">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
           
@@ -26,19 +26,26 @@ export const Footer = () => {
           <div>
             <h4 className="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-8">{t.footer.quickLinks}</h4>
             <ul className="space-y-4">
-              {[
-                t.footer.links.about,
-                t.footer.links.rooms,
-                t.footer.links.restaurant,
-                t.footer.links.spa,
-                t.footer.links.contact,
-              ].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-sm text-white/60 hover:text-white transition-colors font-light">
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/about" className="text-sm text-white/60 hover:text-white transition-colors font-light">
+                  {t.footer.links.about}
+                </Link>
+              </li>
+              <li>
+                <Link href="/rooms" className="text-sm text-white/60 hover:text-white transition-colors font-light">
+                  {t.footer.links.rooms}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-sm text-white/60 hover:text-white transition-colors font-light">
+                  {t.footer.links.faq}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-white/60 hover:text-white transition-colors font-light">
+                  {t.footer.links.contact}
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LocaleSwitcher } from '../ui/LocaleSwitcher'
 
@@ -9,30 +10,31 @@ const navItems = {
   tr: [
     { label: 'Otelimiz', href: '#about' },
     { label: 'Odalar', href: '#rooms' },
-    { label: 'Deneyimler', href: '#experiences' },
+    { label: 'Deneyimler', href: '#reviews' },
     { label: 'İletişim', href: '#contact' },
   ],
   en: [
     { label: 'Our Hotel', href: '#about' },
     { label: 'Rooms', href: '#rooms' },
-    { label: 'Experiences', href: '#experiences' },
+    { label: 'Experiences', href: '#reviews' },
     { label: 'Contact', href: '#contact' },
   ],
   ru: [
     { label: 'Отель', href: '#about' },
     { label: 'Номера', href: '#rooms' },
-    { label: 'Услуги', href: '#experiences' },
+    { label: 'Услуги', href: '#reviews' },
     { label: 'Контакты', href: '#contact' },
   ],
   de: [
     { label: 'Unser Hotel', href: '#about' },
     { label: 'Zimmer', href: '#rooms' },
-    { label: 'Erlebnisse', href: '#experiences' },
+    { label: 'Erlebnisse', href: '#reviews' },
     { label: 'Kontakt', href: '#contact' },
   ],
 }
 
 export const Header = () => {
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentLocale, setCurrentLocale] = useState('tr')
@@ -59,6 +61,14 @@ export const Header = () => {
   }, [])
 
   const currentNavItems = navItems[currentLocale as keyof typeof navItems] || navItems.tr
+  
+  // Eğer anasayfadaysa anchor linkler, değilse ana sayfaya yönlendirip anchor'a git
+  const getNavHref = (anchor: string) => {
+    if (pathname === '/') {
+      return anchor // Anasayfadayken direkt anchor (#about, #rooms, vb.)
+    }
+    return `/${anchor}` // Diğer sayfalardayken ana sayfaya yönlendirip anchor'a git (/#about, /#rooms, vb.)
+  }
 
   return (
     <motion.header
@@ -83,17 +93,20 @@ export const Header = () => {
         </Link>
 
         <nav className="hidden md:flex items-center gap-12">
-          {currentNavItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`text-[10px] uppercase tracking-[0.3em] font-medium transition-colors duration-300 hover:text-primary ${
-                isScrolled ? 'text-secondary' : 'text-white'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {currentNavItems.map((item) => {
+            const href = getNavHref(item.href)
+            return (
+              <Link
+                key={item.label}
+                href={href}
+                className={`text-[10px] uppercase tracking-[0.3em] font-medium transition-colors duration-300 hover:text-primary ${
+                  isScrolled ? 'text-secondary' : 'text-white'
+                }`}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
           
           <div className={`w-px h-6 mx-2 transition-colors ${isScrolled ? 'bg-secondary/10' : 'bg-white/20'}`} />
           
@@ -134,16 +147,19 @@ export const Header = () => {
               ×
             </button>
             <div className="flex flex-col gap-8">
-              {currentNavItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-white text-3xl font-serif hover:text-primary transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {currentNavItems.map((item) => {
+                const href = getNavHref(item.href)
+                return (
+                  <Link
+                    key={item.label}
+                    href={href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-white text-3xl font-serif hover:text-primary transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
               <div className="pt-4 border-t border-white/10">
                 <LocaleSwitcher />
               </div>

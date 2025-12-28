@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { RoomCard } from '../ui/RoomCard'
 import type { Media } from '@/payload-types'
@@ -171,6 +172,7 @@ export const RoomsSection = ({ rooms }: RoomsSectionProps) => {
                     title={room.title}
                     description={room.description}
                     price={room.price}
+                    slug={room.slug}
                     location={room.location}
                     capacity_adults={room.capacity_adults}
                     capacity_children={room.capacity_children}
@@ -186,12 +188,12 @@ export const RoomsSection = ({ rooms }: RoomsSectionProps) => {
         </div>
         
         <div className="mt-24 text-center">
-          <button className="inline-block group relative pb-1 overflow-hidden">
+          <Link href="/rooms" className="inline-block group relative pb-1 overflow-hidden">
             <span className="text-xs uppercase tracking-[0.4em] font-bold text-secondary">
               {t.rooms.viewAll}
             </span>
             <div className="absolute bottom-0 left-0 w-full h-px bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-          </button>
+          </Link>
         </div>
       </div>
 

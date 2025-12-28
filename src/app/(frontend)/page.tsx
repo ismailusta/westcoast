@@ -7,7 +7,6 @@ import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { RoomsSection } from './components/sections/RoomsSection'
 import { AboutSection } from './components/sections/AboutSection'
-import { NewsletterSection } from './components/sections/NewsletterSection'
 import { ReviewForm } from './components/sections/ReviewForm'
 import { ReviewsSection } from './components/sections/ReviewsSection'
 import { getLocale, type Locale } from '@/lib/getLocale'
@@ -25,15 +24,25 @@ export default async function Page() {
   const payload = await getPayload({ config })
   const locale = await getServerLocale()
 
-  // Hero Resimlerini Çek
+  // Hero Resimlerini Çek (category: 'hero' ve showOnHomePage: true olanlar)
   const heroImagesResult = await payload.find({
     collection: 'media',
     where: {
-      category: {
-        equals: 'hero',
-      },
+      and: [
+        {
+          category: {
+            equals: 'hero',
+          },
+        },
+        {
+          showOnHomePage: {
+            equals: true,
+          },
+        },
+      ],
     },
     locale,
+    sort: 'createdAt',
   })
   const heroImages = heroImagesResult.docs as Media[]
 
@@ -108,8 +117,6 @@ export default async function Page() {
         <ReviewsSection reviews={reviewsResult.docs as any[]} />
         
         <ReviewForm />
-        
-        <NewsletterSection />
       </main>
 
       <Footer />

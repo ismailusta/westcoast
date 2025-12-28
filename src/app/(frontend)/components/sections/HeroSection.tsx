@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { Media } from '@/payload-types'
 import { useLocale } from '../LocaleProvider'
 import { getTranslation } from '@/lib/translations'
@@ -13,24 +13,68 @@ interface HeroProps {
 export const HeroSection = ({ images }: HeroProps) => {
   const { locale } = useLocale()
   const t = getTranslation(locale)
-  const heroImage = images?.[0]?.url || 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=2070'
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  
+  // Eğer resim yoksa fallback resim kullan
+  const heroImages = images && images.length > 0 
+    ? images.map(img => img.url).filter(Boolean) as string[]
+    : ['https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=2070']
+
+  // Otomatik geçiş (5 saniyede bir)
+  useEffect(() => {
+    if (heroImages.length <= 1) return
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [heroImages.length])
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
-      {/* Background with parallax effect */}
-      <motion.div 
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="absolute inset-0 z-0"
-      >
-        <div className="absolute inset-0 bg-black/30 z-10" />
-        <img
-          src={heroImage}
-          alt="Luxury Hotel Hero"
-          className="w-full h-full object-cover"
-        />
-      </motion.div>
+      {/* Background Images Carousel */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
+          {heroImages.map((imageUrl, index) => (
+            index === currentImageIndex && (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <div className="absolute inset-0 bg-black/30 z-10" />
+                <img
+                  src={imageUrl}
+                  alt={`Luxury Hotel Hero ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            )
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Image Navigation Dots */}
+      {heroImages.length > 1 && (
+        <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`h-1.5 transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? 'w-8 bg-primary' 
+                  : 'w-1.5 bg-white/40 hover:bg-white/60'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="container mx-auto px-6 relative z-20 text-center mb-24">
         <motion.div

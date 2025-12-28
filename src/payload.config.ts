@@ -11,6 +11,9 @@ import { Media } from './collections/Media'
 import { Amenities } from './collections/Amenities'
 import { RoomTypes } from './collections/RoomTypes'
 import { Reviews } from './collections/Reviews'
+import { Contacts } from './collections/Contacts'
+import { FAQs } from './collections/FAQs'
+import { ContactSettings } from './globals/ContactSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +28,8 @@ export default buildConfig({
       titleSuffix: '- Otel Yönetim Sistemi',
     },
   },
-  collections: [Users, Media, Amenities, RoomTypes, Reviews],
+  collections: [Users, Media, Amenities, RoomTypes, Reviews, Contacts, FAQs],
+  globals: [ContactSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
