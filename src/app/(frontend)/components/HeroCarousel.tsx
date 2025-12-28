@@ -5,41 +5,43 @@ import Image from 'next/image'
 import type { Media } from '@/payload-types'
 
 interface HeroCarouselProps {
-  heroImages: Media[]
+  heroImages?: Media[] // undefined gelme ihtimaline karşı opsiyonel yaptık
 }
 
-export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
+export default function HeroCarousel({ heroImages = [] }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // 1. Hook her zaman en üstte ve koşulsuz çalışmalı
+  // Görüntü sayısını güvenli bir değişkene alalım
+  const imageCount = heroImages?.length || 0
+
+  // Hook'u kesinlikle hiçbir koşula (if) bağlamadan en üstte tutuyoruz
   useEffect(() => {
-    // Eğer görsel yoksa veya tek görsel varsa interval kurma
-    if (!heroImages || heroImages.length <= 1) return
+    // Eğer görsel yoksa veya tekse bir şey yapma (ama hook yine de çalışmış oldu)
+    if (imageCount <= 1) return
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % imageCount)
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [heroImages]) // heroImages değişirse efekt tetiklenir
+  }, [imageCount]) // heroImages yerine uzunluğa bakmak daha stabildir
 
-  // 2. Event Handler'lar
+  // Fonksiyonlar
   const goToNext = () => {
-    if (!heroImages?.length) return
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length)
+    if (imageCount > 0) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % imageCount)
+    }
   }
 
   const goToPrevious = () => {
-    if (!heroImages?.length) return
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + heroImages.length) % heroImages.length)
+    if (imageCount > 0) {
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + imageCount) % imageCount)
+    }
   }
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-  }
-
-  // 3. Early Return (Tüm Hook'lardan SONRA olmalı)
-  if (!heroImages || heroImages.length === 0) {
+  // EĞER HİÇ GÖRSEL YOKSA: Early return en sonda olmalı 
+  // (Fakat bu durumda bile yukarıdaki Hook'lar çalışmış olacak, kural bu)
+  if (imageCount === 0) {
     return null
   }
 
@@ -48,7 +50,7 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
       <div className="relative w-full h-full" style={{ zIndex: 1 }}>
         {heroImages.map((image, index) => (
           <div
-            key={image.id}
+            key={image.id || index}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
@@ -81,12 +83,11 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
         </div>
       </div>
 
-      {heroImages.length > 1 && (
+      {imageCount > 1 && (
         <>
           <button
             onClick={goToPrevious}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm"
-            aria-label="Önceki resim"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -95,7 +96,6 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
           <button
             onClick={goToNext}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm"
-            aria-label="Sonraki resim"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -106,11 +106,10 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
             {heroImages.map((_, index) => (
               <button
                 key={index}
-                onClick={() => goToSlide(index)}
+                onClick={() => setCurrentIndex(index)}
                 className={`transition-all duration-300 rounded-full ${
                   index === currentIndex ? 'w-8 h-2 bg-white' : 'w-2 h-2 bg-white/50 hover:bg-white/75'
                 }`}
-                aria-label={`Resim ${index + 1}'e geç`}
               />
             ))}
           </div>
