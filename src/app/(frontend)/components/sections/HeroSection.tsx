@@ -43,7 +43,7 @@ export const HeroSection = ({ images }: HeroProps) => {
                 initial={{ opacity: 0, scale: 1.1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
+                transition={{ duration: 1, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
                 <div className="absolute inset-0 bg-black/30 z-10" />

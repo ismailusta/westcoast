@@ -62,32 +62,41 @@ export const Header = () => {
 
   const currentNavItems = navItems[currentLocale as keyof typeof navItems] || navItems.tr
   
+  // Hero section olan sayfa kontrolü (sadece ana sayfa)
+  const isHomePage = pathname === '/'
+  
   // Eğer anasayfadaysa anchor linkler, değilse ana sayfaya yönlendirip anchor'a git
   const getNavHref = (anchor: string) => {
-    if (pathname === '/') {
+    if (isHomePage) {
       return anchor // Anasayfadayken direkt anchor (#about, #rooms, vb.)
     }
     return `/${anchor}` // Diğer sayfalardayken ana sayfaya yönlendirip anchor'a git (/#about, /#rooms, vb.)
   }
+
+  // Renkleri belirle: Ana sayfada beyaz, diğer sayfalarda koyu
+  const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-secondary'
+  const logoColor = isHomePage && !isScrolled ? 'text-white' : 'text-secondary'
+  const logoSubColor = isHomePage && !isScrolled ? 'text-primary/80' : 'text-primary'
+  const navTextColor = isHomePage && !isScrolled ? 'text-white' : 'text-secondary'
+  const dividerColor = isHomePage && !isScrolled ? 'bg-white/20' : 'bg-secondary/10'
+  const mobileMenuColor = isHomePage && !isScrolled ? 'bg-white' : 'bg-secondary'
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'glass-light py-4 shadow-sm' : 'bg-transparent py-8'
+        isHomePage 
+          ? (isScrolled ? 'glass-light py-4 shadow-sm' : 'bg-transparent py-8')
+          : 'glass-light py-4 shadow-sm'
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="group relative">
-          <span className={`text-2xl font-serif tracking-[0.2em] transition-colors duration-300 ${
-            isScrolled ? 'text-secondary' : 'text-white'
-          }`}>
+          <span className={`text-2xl font-serif tracking-[0.2em] transition-colors duration-300 ${logoColor}`}>
             WESTCOAST
           </span>
-          <span className={`block text-[10px] uppercase tracking-[0.5em] transition-colors duration-300 ${
-            isScrolled ? 'text-primary' : 'text-primary/80'
-          }`}>
+          <span className={`block text-[10px] uppercase tracking-[0.5em] transition-colors duration-300 ${logoSubColor}`}>
             Grand Hotel
           </span>
         </Link>
@@ -99,35 +108,24 @@ export const Header = () => {
               <Link
                 key={item.label}
                 href={href}
-                className={`text-[10px] uppercase tracking-[0.3em] font-medium transition-colors duration-300 hover:text-primary ${
-                  isScrolled ? 'text-secondary' : 'text-white'
-                }`}
+                className={`text-[10px] uppercase tracking-[0.3em] font-medium transition-colors duration-300 hover:text-primary ${navTextColor}`}
               >
                 {item.label}
               </Link>
             )
           })}
           
-          <div className={`w-px h-6 mx-2 transition-colors ${isScrolled ? 'bg-secondary/10' : 'bg-white/20'}`} />
+          <div className={`w-px h-6 mx-2 transition-colors ${dividerColor}`} />
           
           <LocaleSwitcher />
-          
-          <button className={`transition-colors hover:text-primary ${
-            isScrolled ? 'text-secondary' : 'text-white'
-          }`}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" />
-            </svg>
-          </button>
         </nav>
 
         <button 
           onClick={() => setMobileMenuOpen(true)}
           className="md:hidden flex flex-col gap-1.5 p-2"
         >
-          <span className={`w-6 h-0.5 transition-colors ${isScrolled ? 'bg-secondary' : 'bg-white'}`} />
-          <span className={`w-6 h-0.5 transition-colors ${isScrolled ? 'bg-secondary' : 'bg-white'}`} />
+          <span className={`w-6 h-0.5 transition-colors ${mobileMenuColor}`} />
+          <span className={`w-6 h-0.5 transition-colors ${mobileMenuColor}`} />
         </button>
       </div>
 
