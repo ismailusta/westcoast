@@ -174,7 +174,6 @@ export interface Media {
    * Should hero images be shown on the home page?
    */
   showOnHomePage?: boolean | null;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -550,7 +549,6 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   category?: T;
   showOnHomePage?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

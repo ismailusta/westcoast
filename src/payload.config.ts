@@ -1,6 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { s3Storage } from '@payloadcms/storage-s3'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob' // DEĞİŞTİ: S3 yerine Blob import edildi
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -37,26 +37,18 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || '',
+      // Neon DB için Vercel'deki DATABASE_URL'i kullanır
+      connectionString: process.env.DATABASE_URL || '',
     },
   }),
   sharp,
   plugins: [
-    s3Storage({
+    // DEĞİŞTİ: Minio (s3Storage) silindi, yerine Vercel Blob eklendi
+    vercelBlobStorage({
+      enabled: true, // Her zaman aktif (Vercel ortam değişkeni varsa çalışır)
+      token: process.env.BLOB_READ_WRITE_TOKEN, // Vercel'in otomatik atadığı token
       collections: {
-        media: {
-          prefix: 'media',
-        },
-      },
-      bucket: process.env.MINIO_BUCKET || 'otel-media',
-      config: {
-        endpoint: process.env.MINIO_ENDPOINT || 'http://localhost:9000',
-        credentials: {
-          accessKeyId: process.env.MINIO_ACCESS_KEY || 'minioadmin',
-          secretAccessKey: process.env.MINIO_SECRET_KEY || 'minioadmin',
-        },
-        region: process.env.MINIO_REGION || 'us-east-1',
-        forcePathStyle: true, // MinIO için gerekli
+        media: true, // 'Media' koleksiyonundaki resimleri Blob'a yükler
       },
     }),
   ],
