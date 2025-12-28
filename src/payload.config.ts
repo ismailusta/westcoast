@@ -37,7 +37,6 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      // Neon DB için Vercel'deki DATABASE_URL'i kullanır
       connectionString: process.env.DATABASE_URL
     },
   }),
