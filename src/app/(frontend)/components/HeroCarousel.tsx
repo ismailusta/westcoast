@@ -11,43 +11,40 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Otomatik geçiş için useEffect - her zaman en üstte olmalı
+  // 1. Hook her zaman en üstte ve koşulsuz çalışmalı
   useEffect(() => {
+    // Eğer görsel yoksa veya tek görsel varsa interval kurma
     if (!heroImages || heroImages.length <= 1) return
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % heroImages.length
-        return nextIndex
-      })
-    }, 5000) // 5 saniyede bir geçiş
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length)
+    }, 5000)
 
     return () => clearInterval(interval)
-  }, [heroImages])
+  }, [heroImages]) // heroImages değişirse efekt tetiklenir
 
-  // Early return useEffect'ten sonra olmalı
-  if (!heroImages || heroImages.length === 0) {
-    return null
-  }
-
-  // Sonraki resme geç
+  // 2. Event Handler'lar
   const goToNext = () => {
+    if (!heroImages?.length) return
     setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length)
   }
 
-  // Önceki resme geç
   const goToPrevious = () => {
+    if (!heroImages?.length) return
     setCurrentIndex((prevIndex) => (prevIndex - 1 + heroImages.length) % heroImages.length)
   }
 
-  // Belirli bir resme geç
   const goToSlide = (index: number) => {
     setCurrentIndex(index)
   }
 
+  // 3. Early Return (Tüm Hook'lardan SONRA olmalı)
+  if (!heroImages || heroImages.length === 0) {
+    return null
+  }
+
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Hero Images Carousel/Slider */}
       <div className="relative w-full h-full" style={{ zIndex: 1 }}>
         {heroImages.map((image, index) => (
           <div
@@ -55,7 +52,6 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
-            style={{ position: 'absolute' }}
           >
             {image.url && (
               <div className="relative w-full h-full">
@@ -69,13 +65,11 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
                 />
               </div>
             )}
-            {/* Overlay */}
             <div className="absolute inset-0 bg-black/30" />
           </div>
         ))}
       </div>
 
-      {/* Hero Content */}
       <div className="relative z-10 flex items-center justify-center h-full text-white">
         <div className="text-center px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg">
@@ -87,72 +81,41 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
         </div>
       </div>
 
-      {/* Navigation Arrows (if multiple images) */}
       {heroImages.length > 1 && (
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm"
             aria-label="Önceki resim"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm"
             aria-label="Sonraki resim"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
-        </>
-      )}
 
-      {/* Image Indicators (if multiple images) */}
-      {heroImages.length > 1 && (
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
-          {heroImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentIndex
-                  ? 'w-8 h-2 bg-white'
-                  : 'w-2 h-2 bg-white/50 hover:bg-white/75'
-              }`}
-              aria-label={`Resim ${index + 1}'e geç`}
-            />
-          ))}
-        </div>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`transition-all duration-300 rounded-full ${
+                  index === currentIndex ? 'w-8 h-2 bg-white' : 'w-2 h-2 bg-white/50 hover:bg-white/75'
+                }`}
+                aria-label={`Resim ${index + 1}'e geç`}
+              />
+            ))}
+          </div>
+        </>
       )}
     </section>
   )
 }
-
-
-
-
-
