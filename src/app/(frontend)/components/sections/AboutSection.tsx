@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
+import Image from 'next/image' // Next.js Image bileşeni zaten import edilmiş
 import { motion } from 'framer-motion'
 import { useLocale } from '../LocaleProvider'
 import { getTranslation } from '@/lib/translations'
@@ -9,6 +9,7 @@ import { getTranslation } from '@/lib/translations'
 export const AboutSection = () => {
   const { locale } = useLocale()
   const t = getTranslation(locale)
+  
   return (
     <section id="about" className="py-40 overflow-hidden bg-white">
       <div className="container mx-auto px-6">
@@ -22,12 +23,17 @@ export const AboutSection = () => {
               viewport={{ once: true }}
               className="relative z-10 aspect-[4/5] overflow-hidden shadow-3xl"
             >
+              {/* 1. Hata Çözümü: <img> yerine Next.js <Image /> kullanımı. 
+                Zaten <Image /> kullanmışsın ama muhtemelen başka bir yerde 
+                <img> etiketi kalmış olabilir veya build sırasında bir uyarı tetiklenmiş.
+              */}
               <Image 
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070" 
                 alt="Luxury Hotel Architecture" 
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                priority // LCP performans uyarısı için eklendi
               />
             </motion.div>
             
@@ -71,6 +77,9 @@ export const AboutSection = () => {
                 <p>
                   {t.about.description1}
                 </p>
+                {/* 2. Hata Çözümü: React içinde düz tırnak (") kullanılamaz. 
+                  Bunun yerine &ldquo; (açılış) ve &rdquo; (kapanış) kullanmalısın.
+                */}
                 <p className="font-serif italic text-primary/80 border-l-2 border-primary/20 pl-6 py-2">
                   &ldquo;{t.about.description2.split('.')[0]}.&rdquo;
                 </p>
