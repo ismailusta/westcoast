@@ -22,7 +22,7 @@
     "@payloadcms/next": "3.68.3",
     "@payloadcms/richtext-lexical": "3.68.3",
     "@payloadcms/storage-s3": "^3.68.3",
-    "@payloadcms/storage-vercel-blob": "^3.69.0",
+    "@payloadcms/storage-vercel-blob": "^3.68.3",
     "@payloadcms/ui": "3.68.3",
     "country-flag-icons": "^1.6.4",
     "cross-env": "^7.0.3",
