@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useLocale } from '../LocaleProvider'
 import { getTranslation } from '@/lib/translations'
@@ -21,10 +22,12 @@ export const AboutSection = () => {
               viewport={{ once: true }}
               className="relative z-10 aspect-[4/5] overflow-hidden shadow-3xl"
             >
-              <img 
+              <Image 
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070" 
                 alt="Luxury Hotel Architecture" 
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </motion.div>
             

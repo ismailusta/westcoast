@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import type { Media } from '@/payload-types'
 import { useLocale } from '../LocaleProvider'
@@ -59,6 +59,7 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
     }, 5000) // 5 saniye
   }, [])
 
+  // useEffect early return'den önce olmalı
   React.useEffect(() => {
     if (reviews.length === 0) return
 

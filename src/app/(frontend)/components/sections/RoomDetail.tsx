@@ -19,9 +19,9 @@ interface RoomDetailProps {
     capacity_children?: number
     coverImage?: Media
     gallery?: Media[]
-    floorPlan?: any
-    specialNotes?: any
-    reviews?: any[]
+    floorPlan?: unknown
+    specialNotes?: unknown
+    reviews?: Array<{ rating?: number }>
     features: Array<{ title: string; icon?: string | null }>
   }
 }
@@ -32,7 +32,7 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const allImages = room.coverImage ? [room.coverImage, ...(room.gallery || [])] : (room.gallery || [])
   const averageRating = room.reviews && room.reviews.length > 0
-    ? room.reviews.reduce((sum: number, review: any) => sum + (review.rating || 0), 0) / room.reviews.length
+    ? room.reviews.reduce((sum: number, review: { rating?: number }) => sum + (review.rating || 0), 0) / room.reviews.length
     : 0
 
   return (
@@ -43,7 +43,7 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
           <div className="flex items-center gap-2">
             <Link href="/" className="hover:text-primary transition-colors">{t.rooms.home}</Link>
             <span>/</span>
-            <a href="#rooms" className="hover:text-primary transition-colors">{t.rooms.label}</a>
+            <Link href="/rooms" className="hover:text-primary transition-colors">{t.rooms.label}</Link>
             <span>/</span>
             <span className="text-secondary">{room.title}</span>
           </div>
@@ -228,7 +228,7 @@ export const RoomDetail = ({ room }: RoomDetailProps) => {
               <div>
                 <h2 className="text-3xl font-serif text-secondary mb-6">{t.rooms.reviews}</h2>
                 <div className="space-y-6">
-                  {room.reviews.map((review: any, i: number) => (
+                  {room.reviews.map((review: { rating?: number; comment?: string; guestName?: string }, i: number) => (
                     <div key={i} className="bg-white p-6 border border-secondary/10">
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
