@@ -11,7 +11,7 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Otomatik geçiş için useEffect - early return'den önce olmalı
+  // Otomatik geçiş için useEffect - her zaman en üstte olmalı
   useEffect(() => {
     if (!heroImages || heroImages.length <= 1) return
 
@@ -25,6 +25,7 @@ export default function HeroCarousel({ heroImages }: HeroCarouselProps) {
     return () => clearInterval(interval)
   }, [heroImages])
 
+  // Early return useEffect'ten sonra olmalı
   if (!heroImages || heroImages.length === 0) {
     return null
   }

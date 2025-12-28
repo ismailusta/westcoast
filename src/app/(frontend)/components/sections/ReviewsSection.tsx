@@ -59,7 +59,7 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
     }, 5000) // 5 saniye
   }, [])
 
-  // useEffect early return'den önce olmalı
+  // useEffect her zaman en üstte olmalı - early return'den önce
   React.useEffect(() => {
     if (reviews.length === 0) return
 
@@ -91,6 +91,7 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
     }
   }, [reviews, startAutoScroll])
 
+  // Early return useEffect'ten sonra olmalı
   if (reviews.length === 0) {
     return null
   }
