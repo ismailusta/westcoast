@@ -18,9 +18,9 @@ export const Media: CollectionConfig = {
           })
 
           // Bu media'yı kullanan review'ları filtrele
-          const reviewsUsingThisMedia = reviews.docs.filter((review) => {
+          const reviewsUsingThisMedia = reviews.docs.filter((review: { images?: Array<{ image?: string | number | { id: string | number } }> | null }) => {
             if (!review.images || !Array.isArray(review.images)) return false
-            return review.images.some((img) => {
+            return review.images.some((img: { image?: string | number | { id: string | number } }) => {
               const imageValue = img.image
               const imageId = typeof imageValue === 'object' && imageValue !== null && 'id' in imageValue
                 ? imageValue.id
@@ -35,7 +35,7 @@ export const Media: CollectionConfig = {
           for (const review of reviewsUsingThisMedia) {
             try {
               if (review.images && Array.isArray(review.images)) {
-                const updatedImages = review.images.filter((img) => {
+                const updatedImages = review.images.filter((img: { image?: string | number | { id: string | number } }) => {
                   const imageValue = img.image
                   const imageId = typeof imageValue === 'object' && imageValue !== null && 'id' in imageValue
                     ? imageValue.id
